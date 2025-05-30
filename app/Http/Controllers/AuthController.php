@@ -9,6 +9,35 @@ use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
+    
+    /**
+ * @OA\Post(
+ *     path="/api/register",
+ *     tags={"Auth"},
+ *     summary="Registra um novo usuário",
+ *     @OA\RequestBody(
+ *         required=true,
+ *         @OA\JsonContent(
+ *             required={"name","email","password"},
+ *             @OA\Property(property="name", type="string", example="Frederico"),
+ *             @OA\Property(property="email", type="string", format="email", example="fred@gmail.com"),
+ *             @OA\Property(property="password", type="string", format="password", example="secret123"),
+ *         ),
+ *     ),
+ *     @OA\Response(
+ *         response=201,
+ *         description="Usuário registrado com sucesso",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="user", type="object"),
+ *             @OA\Property(property="token", type="string")
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=422,
+ *         description="Erro de validação"
+ *     )
+ * )
+ */
     // Função de Registro
     public function register(Request $request)
     {
@@ -17,7 +46,7 @@ class AuthController extends Controller
             'email' => 'required|string|email|unique:users',
             'password' => 'required|string|min:6|confirmed',
         ]);*/
-        
+
      
         $user = User::create([
             'name'     => $request->name,
